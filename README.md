@@ -2,9 +2,13 @@
 Manage and run all systemd commands and tools in one command `ctl`!
 
 `ctl` is running all systemd command and tools as a subcommand, for example: 
+
 `ctl status` instead of `systemctl status` 
+
 `ctl log --system --boot` instead of `journalctl --system --boot` 
+
 `ctl bus status` instead of `busctl status`
+
 `ctl run --scope ls` instead of `systemd-run --scope ls`
 
 ## Install
