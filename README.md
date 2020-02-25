@@ -1,5 +1,6 @@
 # CTL
 Manage and run all systemd commands and tools in one command `ctl`!
+
 `ctl` is running all systemd command and tools as a subcommand, for example: 
 `ctl status` instead of `systemctl status` 
 `ctl log --system --boot` instead of `journalctl --system --boot` 
