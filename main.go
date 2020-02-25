@@ -4,34 +4,32 @@
 
 package main
 
-
 import (
+	"io"
 	"log"
 	"os"
-	"io"
-	"strings"
 	"os/exec"
+	"strings"
 )
 
 type Cmd struct {
-	Command string
+	Command   string
 	Arguments []string
-	Stdin io.Reader
-	Stdout io.Writer
-    Stderr io.Writer
-    Environ []string
+	Stdin     io.Reader
+	Stdout    io.Writer
+	Stderr    io.Writer
+	Environ   []string
 }
 
 type CmdResult struct {
 	Exit int
-	Err error
+	Err  error
 }
-
 
 func resolveAlias(arg string) string {
 
 	switch arg {
-	case 
+	case
 		"date",
 		"time":
 		arg = "datetime"
@@ -61,7 +59,6 @@ func resolveAlias(arg string) string {
 	return arg
 }
 
-
 func resolveArgs(isDefault bool, args []string) []string {
 
 	switch len(args) {
@@ -73,7 +70,7 @@ func resolveArgs(isDefault bool, args []string) []string {
 
 	default:
 
-		if (isDefault) {
+		if isDefault {
 			return args[1:]
 		}
 		return args[2:]
@@ -93,31 +90,31 @@ func run(c Cmd) CmdResult {
 	if err != nil {
 		if e, ok := err.(*exec.ExitError); ok {
 			return CmdResult{
-				Exit:  e.ExitCode(),
-				Err: err,
+				Exit: e.ExitCode(),
+				Err:  err,
 			}
 		}
 	}
 
 	return CmdResult{
 		Exit: 0,
-		Err: err,
+		Err:  err,
 	}
 }
 
 func getCmd(args []string) Cmd {
 
 	cmd := Cmd{
-		Stdin: os.Stdin,
-		Stdout: os.Stdout,
-		Stderr: os.Stderr,
+		Stdin:   os.Stdin,
+		Stdout:  os.Stdout,
+		Stderr:  os.Stderr,
 		Environ: os.Environ(),
 	}
 
 	if len(args) >= 2 {
 
 		switch name := resolveAlias(args[1]); name {
-		
+
 		case "complete":
 
 			ccmd := getCmd(args[2:])
@@ -199,15 +196,14 @@ func getCmd(args []string) Cmd {
 			cmd.Arguments = resolveArgs(false, args)
 			return cmd
 		}
-	
-	} 
+
+	}
 
 	cmd.Command = "systemctl"
 	cmd.Arguments = resolveArgs(true, args)
 
-	return cmd	
+	return cmd
 }
-
 
 func main() {
 
@@ -219,4 +215,3 @@ func main() {
 
 	os.Exit(res.Exit)
 }
-
