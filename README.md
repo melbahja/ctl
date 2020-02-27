@@ -16,7 +16,7 @@ example:
 `ctl run --scope ls` instead of `systemd-run --scope ls`
 
 ## Installation
-You can check releases page for compiled versions or follow these steps:
+
 ```bash
 go get github.com/melbahja/ctl
 # To install bash completion:
